@@ -1,0 +1,71 @@
+{% extends 'paginas/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+	<div class="col-lg-6">
+		<div class="box-element" id="form-wrapper">
+               <br>
+               <div class="box-element hidden" id="payment-info">
+	                    <small>Paypal Options</small>
+               </div>
+               <form id="form">
+                    <div id="user-info">
+                         <div class="form-field">
+                              <input required class="form-control" type="text" name="name" placeholder="Nombre..">
+                         </div>
+                         <div class="form-field">
+                              <input required class="form-control" type="email" name="email" placeholder="Email..">
+                         </div>
+                    </div>
+                    
+                    <div id="shipping-info">
+                         <hr>
+                         <p><b>Informacion de envio:</b></p>
+                         <hr>
+                         <div class="form-field">
+                              <input class="form-control" type="text" name="address" placeholder="Direccion">
+                         </div>
+                         <div class="form-field">
+                              <input class="form-control" type="text" name="city" placeholder="Ciudad..">
+                         </div>
+                         <div class="form-field">
+                              <input class="form-control" type="text" name="state" placeholder="Departamento..">
+                         </div>
+                         <div class="form-field">
+                              <input class="form-control" type="text" name="zipcode" placeholder="Codigo postal">
+                         </div>
+                    </div>
+                    <hr>
+                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+               </form>
+		</div>
+		
+	</div>
+
+	<div class="col-lg-6">
+		<div class="box-element">
+               <a  class="btn btn-outline-dark" href="{% url 'forms:carrito' %}">&#x2190; Volver al carrito</a>
+               <hr><center>
+                   <h3><b>PEDIDO</b></h3> 
+               </center>
+               
+               <hr>
+               {% for producto in items %}
+               <div class="cart-row">
+                    <div style="flex:2"><img class="row-image" src="{{producto.product.Imagenes.url}}"></div>
+                    <div style="flex:2"><p>{{producto.product.name}}</p></div>
+                    <div style="flex:1"><p>${{producto.product.price|floatformat:2}}</p></div>
+                    <div style="flex:1">
+                         <p class="quantity">x{{producto.quantity}}</p>
+                    </div>
+                    <div style="flex:1">${{producto.total}}</div>
+               </div>
+               {% endfor %}
+               <h5>Items: {{order.cantidad}}  </h5>
+               <h5>Total: ${{order.total_pago|floatformat:2}}</h5>
+               
+
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,87 @@
+{% extends 'paginas/main.html' %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.css" integrity="sha512-8WAX0xL/cHZ38RXoX2gtuqkAwmDVAzGwoFVmHvn46IDHGWOjTHx0vcl9OapNrfOzpFtql0SNkv+0y0b5Fm8ZkA==" crossorigin="anonymous" />
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+{% block content %}
+<a class="btn btn-dark btn-sm" href="{% url 'forms:tienda' %}">           &#x2190; <h7>Regresar</h7>
+    </a>
+<div>
+    
+    <h1>{{ p.name }}</h1>
+    <center>
+    <div class="sliderD-container">
+        <div class="sliderD" id="sliderD">
+            
+            {% for gallery_image in p.Productos.all %}
+                <div class="sliderD-section">
+                    <img src="{{ gallery_image.Imagenes.url }}">
+                </div>
+            {% endfor %}
+            
+        </div>
+        <div class="slider__btn slider__btn--right"id="btn--right">&#62;</div>
+        <div class="slider__btn slider__btn--left"id="btn--left">&#60;</div>
+    </div></center>
+    <table width="100%">
+        <tr>
+            <th> <h3>Precio:</h3> </th>
+
+            <th> <h3>Stock:</h3> </th>
+
+        </tr>
+
+         <tr>
+            <td align="center"><h2>${{p.price}}</h2></td>
+            <td><h2>{{p.stock}} unidades</h2></td>   
+        </tr>
+    </table>
+    <br>
+    <table width="100%">
+        <tr>
+            <td colspan="4" align="center"> <h2>Descripcion</h2> </td>
+        </tr>
+        <tr>
+            <td><h4>{{p.descripcion}}</h4></td>   
+        </tr>
+    </table>
+    <br>
+    <table width="100%">
+        <tr>
+            <th> <h3>Marca:</h3> </th>
+
+            <th> <h3>Categorias:</h3> </th>
+        </tr>
+
+         <tr>
+            <td align="center"><h2>{{p.marca}}</h2></td>
+            <td><h4>{% if p.categoria %}
+                        {% for pc in p.categoria.all %}
+                                <button>
+                                    {{pc}}
+                                </button>
+                        {% endfor %}
+                        {% else %}
+                            <h4>Sin Categorias</h4>
+                        {% endif %}
+            </h4></td>   
+        </tr>
+    </table>
+</div>    
+    <br>
+    <br>
+    <script src="/static/js/slider.js"></script>
+{% endblock content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.min.js" integrity="sha512-ZajFBgnksNp8Rj+AbmYe8ueOu45HiSjtf3QpqnRbHlq719m6VK0FkbYIqQ8wEnlVuJ1i9pC+z6Z9ewmDnUTMCg==" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
+

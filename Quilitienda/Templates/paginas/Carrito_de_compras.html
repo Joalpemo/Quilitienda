@@ -1,0 +1,61 @@
+{% extends 'paginas/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+	<div class="col-lg-12">
+		<div class="box-element">
+               <div class="box-element">
+                    <a class="btn btn-outline-dark" href="{% url 'forms:tienda' %}">&#x2190;Continuar comprando</a>
+                    <button href="#}">
+                         Limpiar carrito
+                    </button> 
+                    <br>
+                    <br>
+                    <table class="table">
+                         <tr>
+                              <th><h5>Items: <strong>{{order.cantidad}}</strong></h5></th>
+                              <th>
+                                   <h5>Total:
+                                        <strong> ${{order.total_pago|floatformat:2}}</strong>
+                                   </h5>
+                              </th>
+
+                              <th>
+                                   <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'forms:pago' %}">Pagar</a>
+                              </th>
+                         </tr>
+                    </table>
+               </div>
+		</div>
+
+		<br>
+          
+		<div class="box-element">
+
+               <div class="cart-row">
+                    <div style="flex:2"></div>
+                    <div style="flex:2"><strong>Producto</strong></div>
+                    <div style="flex:1"><strong>Precio</strong></div>
+                    <div style="flex:1"><strong>Cantidad</strong></div>
+                    <div style="flex:1"><strong>Total</strong></div>
+                    <div style="flex:1"></div>
+               </div>
+               {% for producto in items %}
+               <div class="cart-row">
+                    <div style="flex:2"><img class="row-image" src=""></div>
+                    <div style="flex:2"><p>{{producto.product.name}}</p></div>
+                    <div style="flex:1"><p>${{producto.product.price|floatformat:2}}</p></div>
+                    <div style="flex:1">
+                         <p class="quantity">x{{producto.quantity}}</p>
+                         <div class="quantity">
+                              <img class="chg-quantity" src="{% static 'imagenes/arrow-up.png' %}">
+                              <img class="chg-quantity" src="{% static 'imagenes/arrow-down.png' %}">
+                         </div>
+
+                    </div>
+                    <div style="flex:1">${{producto.total_prodcuto}}</div>
+		     </div>
+               {% endfor %}
+	</div>
+</div>
+{% endblock content %}

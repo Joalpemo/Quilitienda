@@ -1,0 +1,51 @@
+{% extends 'paginas/main.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+{% block content %}
+<div class="contenido">
+    <br>
+    <div class="row">
+        {% for productos in entity %}
+        <div class="col-lg-4">
+
+            <img class="thumbnail" src="{{productos.Imagenes.url}}">
+
+            <div class="box-element product">
+
+                <h6><strong>{{productos.name}}</strong></h6>
+
+                <div class="form-inline ml-auto my-0 my-lg-0">
+                    <h4 >
+                        <strong>${{productos.price}}</strong>
+                    </h4>
+                </div>
+
+                <button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
+
+                <a class="btn btn-outline-warning" href="{% url 'forms:ver_producto' id_prod=productos.id %}">Detalles</a>  
+            
+            </div>
+        </div> 
+        {% endfor%}   
+           
+    </div>
+    <div>
+     
+    </div>
+</div>
+{% include 'paginas/paginator.html' %}
+
+{% endblock content %}
+
+
+
+
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        {% load static %}
+       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+        <!-- Estilos personalizados -->
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/detalles.css' %}">
+
+        <!--<script type="text/javascript">
+            var user= '{{request.user}}'
+            function getToken(name){
+                var cookieValue = null;
+                if (document.cookie && document.cookie !==''){
+                    var cookies = document.cookie.split(';');
+                    for (var i=0; i <cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0,name.length + 1 )===(name + '=')){
+                            cookieValue =decodeURIComponent(cookie.substring(name.length + 1));
+                            break;             
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            var csrftoken = getToken('csrftoken');
+        </script> -->
+
+        <!--Alertas-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <title>Quilitienda</title>
+     </head>
+     <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info ">
+          
+            <a  href="{% url 'forms:tienda' %}"> 
+
+            <img id="quilitienda-logo" src="{% static 'imagenes/quilitienda.png' %}" style=""> 
+            
+                <span class="sr-only">(current)</span>
+
+            </a>
+
+            
+
+            <form class="form-inline my-2 my-lg-0" method="GET">
+
+                <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." name="buscar" value="">
+
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar
+                </button>
+
+            </form>
+
+            <div class="form-inline my-2 my-lg-0">
+
+                <a href="{% url 'forms:carrito' %}">
+
+                    <img  id="cart-icon" src="{% static 'imagenes/cart.png' %}">
+
+                </a>
+
+                <p id="cart-total">0</p>
+
+            </div>
+            <ul class="form-inline ml-auto my-0 my-lg-0 ">
+
+                {% if user.is_authenticated %}
+                <a id="sesion_login" ::before></a>
+                    
+                    <a  class="nav-link text-white btn btn-outline-dark"  href="#">{{user.username}}</a>
+                 
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-warning btn-sm"href="{% url 'forms:salir' %}">Cerrar sesion</a>
+                    </li>
+                
+                {% else %}
+                    <a  class="btn btn-info text-ligth" href="{% url 'login' %}">Login</a>
+                    <a  class="btn btn-light text-dark" href="{% url 'forms:register' %}">Register</a>  
+                {% endif %}
+            </ul>
+          </nav>
+            
+        <hr>
+
+         <div class="container">
+                <br>
+                {% block content %}
+
+
+                 {% endblock content %}
+         </div>
+         <br>
+    {% if messages %}
+        {% for n in messages %}
+            <script >
+                Swal.fire({
+                    title:'Felicitaciones',
+                    text:'{{n}}',
+                    icon:'success'
+                })
+            </script>
+        {% endfor %}
+    {% endif %}
+         <br>
+
+    <footer>
+        <div class="marcas">
+            <img src="{% static 'imagenes/footer/apple.png' %}" alt="apple">
+            <img src="{% static 'imagenes/footer/lenovo.png' %}" alt="lenovo">
+            <img src="{% static 'imagenes/footer/microsoft.png' %}" alt="microsoft">
+            <img src="{% static 'imagenes/footer/samsung.png' %}" alt="samsung">
+            <img src="{% static 'imagenes/footer/xiaomi.png' %}" alt="xiaomi">
+
+        </div>
+        <div class="logo_footer">
+            <img src="{% static 'imagenes/quilitienda_logo_inferior.png' %}" alt="logo">
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+
+</body>    
+    
+</html>
