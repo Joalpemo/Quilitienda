@@ -4,6 +4,8 @@
 <html>
     <head>
         {% load static %}
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.css" integrity="sha512-8WAX0xL/cHZ38RXoX2gtuqkAwmDVAzGwoFVmHvn46IDHGWOjTHx0vcl9OapNrfOzpFtql0SNkv+0y0b5Fm8ZkA==" crossorigin="anonymous" />
        
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -13,9 +15,9 @@
         <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}">
         <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/detalles.css' %}">
 
-        <!--<script type="text/javascript">
-            var user= '{{request.user}}'
-            function getToken(name){
+        <script type="text/javascript">
+            var user = '{{request.user}}'
+           function getCookie(name){
                 var cookieValue = null;
                 if (document.cookie && document.cookie !==''){
                     var cookies = document.cookie.split(';');
@@ -29,8 +31,8 @@
                 }
                 return cookieValue;
             }
-            var csrftoken = getToken('csrftoken');
-        </script> -->
+            var csrftoken = getCookie('csrftoken'); 
+        </script>
 
         <!--Alertas-->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -66,7 +68,7 @@
 
                 </a>
 
-                <p id="cart-total">0</p>
+                <p id="cart-total">{{Numero_carrito}}</p>
 
             </div>
             <ul class="form-inline ml-auto my-0 my-lg-0 ">
@@ -129,6 +131,8 @@
 
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     
+    <script type="text/javascript" src="{% static 'js/carrito.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.min.js" integrity="sha512-ZajFBgnksNp8Rj+AbmYe8ueOu45HiSjtf3QpqnRbHlq719m6VK0FkbYIqQ8wEnlVuJ1i9pC+z6Z9ewmDnUTMCg==" crossorigin="anonymous"></script>
 
 </body>    
     

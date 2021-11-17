@@ -1,3 +1,4 @@
+/* Slider de Ver Producto */
 .sliderD-container {
     width: 100%;
     max-width: 900px;
@@ -48,22 +49,43 @@
 .slider__btn:hover{
     background:#fff;
 }
+/*  FIN Slider de Ver Producto */
 
-
-
-.sliderP {
+/* Mostrar una sola imagen en tienda*/
+.Una_Sola_Imagen {
     display: flex;
     overflow: hidden;    
 }
 
-.sliderP a {
+.Una_Sola_Imagen a {
         display: inline-block;
         height: 190px;
     }
 
-.sliderP img {
+.Una_Sola_Imagen img {
         object-position: center;
         object-fit: cover;
         height: 100%;
         width: 100%;
     }
+/* FIN Mostrar una sola imagen en tienda*/
+
+/* Mostrar una sola imagen en Carrito*/
+.CarritoP {
+    display: flex;
+    overflow: hidden;    
+}
+
+.CarritoP a {
+        display: inline-block;
+        height: 130px;
+        width: 180px;
+    }
+
+.CarritoP img {
+        object-position: center;
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+/* FIN Mostrar una sola imagen en Carrito*/

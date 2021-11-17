@@ -52,11 +52,24 @@
                <hr>
                {% for producto in items %}
                <div class="cart-row">
-                    <div style="flex:2"><img class="row-image" src="{{producto.product.Imagenes.url}}"></div>
+                    <div style="flex:2">
+                         <div  class="CarritoP">
+                              <a>
+                              {% for imagen in ima.all %}
+                              
+                                  {% if imagen.Producto_id == producto.product.id %}
+                                      <img class="row-image" src="{{imagen.Imagenes.url}}">
+                                  
+                                  {% endif %}
+
+                              {% endfor%} 
+                              </a>
+                          </div> 
+                    </div>
                     <div style="flex:2"><p>{{producto.product.name}}</p></div>
                     <div style="flex:1"><p>${{producto.product.price|floatformat:2}}</p></div>
                     <div style="flex:1">
-                         <p class="quantity">x{{producto.quantity}}</p>
+                         <p class="quantity">x{{producto.quantity}}<p></p>
                     </div>
                     <div style="flex:1">${{producto.total}}</div>
                </div>

@@ -16,21 +16,23 @@
             <li><img src="{% static 'imagenes/banner/banner3.jpg' %}"></li>
             <li><img src="{% static 'imagenes/banner/banner4.jpg' %}"></li>
         </ul>
-
     </div>
     <br>
     <div class="row">
         {% for productos in entity %}
         <div class="col-lg-4">
             <div class="thumbnail" >
-                <div class="sliderP">
+                <div class="Una_Sola_Imagen">
                     <a >
-                    {% for imagen in ima %}
-                    <!--
+                    {% for imagen in ima.all %}
+                    
+                        {% if imagen.Producto_id == productos.id %}
+                            <img src="{{imagen.Imagenes.url}}">
                         
-                        -->
-                        <h1>{{imagen.Producto_id}}</h1>
-                        <h4>{{productos.id}}</h4>
+                        {% endif %}
+                        
+                        
+                        
                     {% endfor%} 
                     </a>
                 </div>   
@@ -47,7 +49,7 @@
                 </div>
 
              <!--data-productos={{productos.id}} data-action= "add" -->
-                <a class="btn btn-outline-secondary add-btn update-carrito">Agregar al carrito</a>
+                <button data-productos={{productos.id}} data-action="add" class="btn btn-outline-secondary add-btn update-carrito"> Agregar al carrito</button>
 
                 <a class="btn btn-outline-warning" href="{% url 'forms:ver_producto' id_prod=productos.id %}">Detalles</a>  
             
