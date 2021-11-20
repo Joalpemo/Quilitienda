@@ -47,9 +47,13 @@
                         <strong>${{productos.price}}</strong>
                     </h4>
                 </div>
-
-             <!--data-productos={{productos.id}} data-action= "add" -->
+                {% if user.is_authenticated %}
                 <button data-productos={{productos.id}} data-action="add" class="btn btn-outline-secondary add-btn update-carrito"> Agregar al carrito</button>
+
+                {% else %}
+
+                <button onClick="alert('¡Debes iniciar o registrarte para realizar esta aciion!')" class="btn btn-outline-secondary add-btn update-carrito"> Agregar al carrito</button>
+                {% endif %}
 
                 <a class="btn btn-outline-warning" href="{% url 'forms:ver_producto' id_prod=productos.id %}">Detalles</a>  
             

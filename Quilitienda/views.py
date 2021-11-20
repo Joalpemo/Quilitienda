@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Q 
 from .forms import *
@@ -81,6 +82,8 @@ def Agregar_al_carrito(request):
 
      if action == 'add':
           orderitem.quantity = (orderitem.quantity +1)
+          if orderitem.quantity == 1:
+               messages.success(request, 'Articulo añadido al carrito ')
      elif action == 'remover':
           orderitem.quantity = (orderitem.quantity -1)
 
@@ -88,6 +91,7 @@ def Agregar_al_carrito(request):
 
      if orderitem.quantity <=0:
           orderitem.delete()
+          messages.success(request, 'Articulo eliminado del carrito')
      return JsonResponse('Agregado al carrito',safe=False)
 
 
@@ -118,10 +122,20 @@ def register(request):
           formu = CreateUserForm(request.POST)
           if formu.is_valid():
                formu.save()
+               usuario_creado = User.objects.last()
+               costumer_nuevo = Customer()
+               costumer_nuevo.user = usuario_creado
+               costumer_nuevo.name = usuario_creado.username
+               costumer_nuevo.email = usuario_creado.email
+               costumer_nuevo.save()
+
                user = formu.cleaned_data.get('username')
+               email = formu.cleaned_data.get('email')
                password_login =formu.cleaned_data.get('password1')
                usuario = authenticate(username=user,password=password_login)
                login(request, usuario)
+
+
                messages.success(request, 'Cuenta creada ' + user)
                return redirect(to='/Quilitienda/')  
      else:

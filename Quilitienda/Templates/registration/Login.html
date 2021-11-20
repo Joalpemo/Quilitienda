@@ -98,12 +98,36 @@
                     </form>
                    
                 </div>
+                 <script >
+                
+                
+                {% if form.errors %}
+                    var errores = '';
+                    {% for field in form %}
+                        {% for erro in field.errors %}
+                        errores += '{{ erro }}';
+                        {% endfor %}
+                    {% endfor %}
+                     Swal.fire({
+                        title:'Error!',
+                        text:errores,
+                        icon:'error'
+                    });
+                {% endif %} 
+                
+            </script>
+
                 <br>
-                <center>
-                <a class="ml-2" style="color:#ffff" href="{% url 'forms:tienda' %}">
-                    Regresar
-                </a>
-                </center>
+                <div>
+                    <p><div class="d-flex justify-content-center links">
+                        No tienes una cuenta? <a href="{% url 'login' %}"  class="ml-2 " style="color:#ffff" >Crear una cuenta</a>
+                    </div></p> 
+                    <center>
+                    <a class="ml-2" style="color:#ffff" href="{% url 'forms:register' %">
+                        Regresar
+                    </a>
+                    </center>
+                </div>
             </div> 
         </div>
     </div>
