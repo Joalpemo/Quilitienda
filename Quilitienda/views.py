@@ -1,8 +1,8 @@
+from django.shortcuts import render, redirect,get_object_or_404
 from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -11,7 +11,8 @@ from .forms import *
 from .models import *
 import json
 
-
+def prueba (request):
+     return render(request,'paginas/prueba.html')
 def tienda(request):
      if request.user.is_authenticated:
           customer=request.user.customer
@@ -55,6 +56,9 @@ def tienda(request):
 
 def carrito(request):
      i=Imagenes.objects.all()
+     buscar= request.GET.get("buscar")
+     p = Product.objects.all()
+
      if request.user.is_authenticated:
           customer=request.user.customer
           order, created=Order.objects.get_or_create(customer=customer,complete=False)
@@ -64,6 +68,18 @@ def carrito(request):
           order= {"total_pago":0, "cantidad":0}
 
      context = {'items':items,'ima':i, 'order':order}
+
+     i=Imagenes.objects.all()
+     buscar= request.GET.get("buscar")
+     if buscar:
+          p=Product.objects.filter(
+               Q(name__icontains = buscar)|
+               Q(marca__nombre__icontains = buscar)|
+               Q(categoria__nombre__icontains = buscar)
+               ).distinct()
+          data ={
+          'entity':p,'ima':i}
+          return render(request, 'paginas/buscar.html',data)
      return render(request, 'paginas/Carrito_de_compras.html', context)
      
 
@@ -157,3 +173,23 @@ def ver_producto(request, id_prod):
           }
           return render(request, 'paginas/buscar.html',data)
      return render(request,'paginas/ver_producto.html',locals())
+
+def ver_perfil(request,id_perfil):
+     usuario =Customer.objects.get(user_id=id_perfil)
+     data ={'usuario':usuario,}
+     return render(request,'paginas/perfil.html',locals())
+
+def modificar_perfil(request,id_perfil):
+     usuario=get_object_or_404(Customer, user_id=id_perfil)
+     data={
+     'form':RegistrarForm(instance=usuario)
+     }
+     if request.method == 'POST':
+          modificar=RegistrarForm(data=request.POST, instance=usuario)
+          if modificar.is_valid():
+               modificar.save()
+               return redirect(to="forms:ver_perfil")
+          data["forms"]=modificar
+
+     return render(request,'paginas/modificar_perfil.html',data)
+     

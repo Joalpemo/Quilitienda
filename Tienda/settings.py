@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'Tienda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qbd',
+        'NAME': 'Quilitienda',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',

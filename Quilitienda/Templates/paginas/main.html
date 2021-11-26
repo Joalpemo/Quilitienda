@@ -14,10 +14,16 @@
         <!-- Estilos personalizados -->
         <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}">
         <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/detalles.css' %}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/perfil.css' %}">
 
+        <!--Select anidado (SELECT2)-->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!--Codigo Java -->
         <script type="text/javascript">
             var user = '{{request.user}}'
-           function getCookie(name){
+            function getCookie(name){
                 var cookieValue = null;
                 if (document.cookie && document.cookie !==''){
                     var cookies = document.cookie.split(';');
@@ -32,6 +38,29 @@
                 return cookieValue;
             }
             var csrftoken = getCookie('csrftoken'); 
+            
+            function getCookie(name){
+                var cookiesArr = document.cookie.split(";");
+
+                    for (var i=0; i <cookiesArr.length; i++) {
+                        var cookiePair = cookiesArr[i].split("=");
+
+                        if(name == cookiePair[0].trim()){
+                            return decodeURIComponent(cookiePair[1])
+                        }             
+                        
+                    }
+                
+                return null;
+            }
+            var cart = JSON.parse(getCookie('csrfavoritas'));
+            if (cart == undefined){
+                cart = {}
+                console.log('carrito creado')
+                document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+            }
+            console.log('Cart:', cart)
         </script>
 
         <!--Alertas-->
@@ -55,7 +84,7 @@
 
                 <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." name="buscar" value="">
 
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search"></span>Buscar
                 </button>
 
             </form>
@@ -71,12 +100,13 @@
                 <p id="cart-total">{{Numero_carrito}}</p>
 
             </div>
+          
             <ul class="form-inline ml-auto my-0 my-lg-0 ">
 
                 {% if user.is_authenticated %}
                 <a id="sesion_login" ::before></a>
                     
-                    <a  class="text-white btn btn-outline-dark"  href="#">{{user.username}}</a>
+                    <a  class="text-white btn btn-outline-dark"  href="{% url 'forms:ver_perfil' id_perfil=user.id %}">{{user.username}}</a>
                  
                     <div class="nav-item">
                         <a class="nav-link btn btn-info text-ligth" href="{% url 'forms:salir' %}">Cerrar sesion</a>
@@ -130,8 +160,13 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    
+
+    <!-- Archivos Java del proyecto -->
     <script type="text/javascript" src="{% static 'js/carrito.js' %}"></script>
+   
+  
+    <!-- Archivos Java del proyecto -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.min.js" integrity="sha512-ZajFBgnksNp8Rj+AbmYe8ueOu45HiSjtf3QpqnRbHlq719m6VK0FkbYIqQ8wEnlVuJ1i9pC+z6Z9ewmDnUTMCg==" crossorigin="anonymous"></script>
 
 </body>    

@@ -14,7 +14,20 @@
         {% for productos in entity %}
         <div class="col-lg-4">
 
-            <img class="thumbnail" src="{{productos.Imagenes.url}}">
+
+            <div class="thumbnail" >
+                <div class="Una_Sola_Imagen">
+                    <a >
+                    {% for imagen in ima.all %}
+                    
+                        {% if imagen.Producto_id == productos.id %}
+                            <img src="{{imagen.Imagenes.url}}">
+                        {% endif %}
+                        
+                    {% endfor%} 
+                    </a>
+                </div>   
+            </div>
 
             <div class="box-element product">
 

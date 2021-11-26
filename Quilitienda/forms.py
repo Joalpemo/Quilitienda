@@ -13,4 +13,13 @@ class CreateUserForm(UserCreationForm):
 class RegistrarForm(ModelForm):
     class Meta:
         model = Customer
-        fields = ['user','email','celular','direccion']
+        fields = [
+        'user',
+        'email',
+        'celular',
+        'direccion',
+        'departamento',
+        'nombre',
+        'apellido',
+        'foto',
+        'municipio']
