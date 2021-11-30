@@ -14,7 +14,6 @@ class RegistrarForm(ModelForm):
     class Meta:
         model = Customer
         fields = [
-        'user',
         'email',
         'celular',
         'direccion',

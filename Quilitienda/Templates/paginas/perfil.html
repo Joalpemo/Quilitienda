@@ -72,9 +72,9 @@
                         <h3 >{{ usuario.departamento }}</h3> 
                     </div>
                     <div>
-                        <h3 > <b>Ciudad:</b> </h3> 
+                        <h3 > <b>Municipio:</b> </h3> 
 
-                        <h3 >------</h3> 
+                        <h3> {{ usuario.municipio }} </h3> 
                     </div>
                     <a id="bta"class="btn btn-info btn-sm" href="{% url 'forms:modificar_perfil' id_perfil=user.id %}">Actualizar Datos</a>
                     <br>        

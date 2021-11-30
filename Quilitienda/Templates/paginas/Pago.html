@@ -1,10 +1,54 @@
 {% extends 'paginas/main.html' %}
-{% load static %}
 {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+     {% load static %}
+     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/pago.css' %}">
+     <title></title>
+</head>
+<body>
+
 <div class="row">
 	<div class="col-lg-6">
 		<div class="box-element" id="form-wrapper">
                <br>
+               {% if user.is_authenticated %}
+               <form id="form">
+                    <div id="user-info">
+                         <div class="form-field">
+                              <input required class="form-control" type="text" name="name" placeholder="Nombre..">
+                         </div>
+                         <div class="form-field">
+                              <input required class="form-control" type="email" name="email" placeholder="Email..">
+                         </div>
+                         <div class="form-field">
+                              <input  type="text" name="Cedula" placeholder="Cedula..">
+                         </div>
+                    </div>
+                    <div id="shipping-info">
+                         <p><b>Informacion de envio:</b></p>
+                         <hr>
+                         <div class="form-field">
+                              {{ usuario.direccion }}
+                         </div>
+                         <div class="form-field">
+                              {{ usuario.departamento }}
+                         </div>
+                         <div class="form-field">
+                              {{ usuario.celular }}
+                         </div>
+                         <div class="form-field">
+                              {{ usuario.municipio }}
+                         </div>
+                         <div class="form-field">
+                              {{ usuario.municipio }}
+                         </div>
+                    </div>
+                    <hr>
+                    <input id="form-button" class="btn btn-outline-info btn-block" type="submit" value="Continue"> 
+               </form>
+               {% else %}
                <form id="form">
                     <div id="user-info">
                          <div class="form-field">
@@ -14,27 +58,27 @@
                               <input required class="form-control" type="email" name="email" placeholder="Email..">
                          </div>
                     </div>
-                    
                     <div id="shipping-info">
                          <hr>
                          <p><b>Informacion de envio:</b></p>
                          <hr>
                          <div class="form-field">
-                              <input class="form-control" type="text" name="address" placeholder="Direccion">
+                              <input class="form-control" type="text" name="address" placeholder="Dirrecion">
                          </div>
                          <div class="form-field">
-                              <input class="form-control" type="text" name="city" placeholder="Ciudad..">
+                              <input class="form-control" type="text" name="city" placeholder="Municipio">..">
                          </div>
                          <div class="form-field">
-                              <input class="form-control" type="text" name="state" placeholder="Departamento..">
+                              <input class="form-control" type="text" name="state" placeholder="">">
                          </div>
                          <div class="form-field">
-                              <input class="form-control" type="text" name="zipcode" placeholder="Codigo postal">
+                              <input class="form-control" type="text" name="celular" placeholder="Celular">
                          </div>
                     </div>
                     <hr>
-                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+                    <input id="form-button" class="btn btn-outline-info btn-block" type="submit" value="Continue">  
                </form>
+               {% endif %}
 		</div>
 		<br>
           <div class="box-element hidden" id="payment-info">
@@ -85,7 +129,7 @@
 </div>
 <script type="text/javascript">
      var shipping = '{{order.shipping}}'
-     var total ='{{order.total_pago|floatformat:2}}'
+     var total ='{{order.total_pago}}'
 
 
      if (shipping == 'False'){
@@ -97,8 +141,8 @@
      }
 
      if (shipping == 'False' && user == 'AnonymousUser'){
-          document.getElementById('form-wrapper').classList.add('hidden')
-          document.getElementById('payment-info').classList.remove('hidden')
+          document.getElementById('form-wrapper').classList.add('hidden');
+          document.getElementById('payment-info').classList.remove('hidden');
      }
 
 
@@ -112,9 +156,8 @@
           document.getElementById('payment-info').classList.remove('hidden')
      })
 
-     document.getElementById('make-payment')addEventListener('click', function(){
-          submitFormData()
-     })
+     document.getElementById('make-payment').addEventListener('click', function(){submitFormData()})
+
      function submitFormData(){
           console.log('click')
 
@@ -127,14 +170,15 @@
                'address': null,
                'city': null,
                'state': null,
-               'zipcode': null,
+               'celular':null,
+               
           }
 
           if (shipping != 'False') {
-               shippingInfo.address = form.address.value
+               shippingInfo.address = form.direccion.value
                shippingInfo.city = form.city.value
                shippingInfo.state = form.state.value
-               shippingInfo.zipcode = form.zipcode.value
+               shippingInfo.celular = form.celular.value
           }
 
           if (user == 'AnonymousUser') {
@@ -142,6 +186,27 @@
                userInfo.email = form.email.value
                
           }
+          var url = '/procesar_pedido/'
+          fetch(url,{
+               method:'POST',
+               headers:{
+                    'Content-Type':'application/json',
+                    'X-CSRFToken':csrftoken,
+               },
+               body:JSON.stringify({'form': userFormData,'shipping':shippingInfo})
+          })
+
+          .then((response)=>response.json())
+
+          .then((data)=>{
+               console.log('Success:', data);
+               alert('Transacion completa');
+               window.location.href= "{% url 'forms:tienda' %}"
+          })
+
+
      }
 </script>
+</body>
+</head>
 {% endblock content %}

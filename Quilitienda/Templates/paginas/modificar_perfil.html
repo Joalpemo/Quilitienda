@@ -5,6 +5,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/perfil_formulario.css' %}">
+
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<title></title>
 </head>
 <body>
@@ -67,26 +69,21 @@
 		<label>Municipio</label>
 	    {{ form.municipio }}
 	    <br>
-	    <br>
+	    <br>	
 		    <button class="button">Guardar </button>
+
 		  <br>
 		  <br>
-		   	<a class="button" href="{% url 'forms:ver_perfil' id_perfil=user.id %}" > Regresar </a>
+		   	<a href="{% url 'forms:ver_perfil' id_perfil=user.id %}" > Regresar </a>
 		</form>
   </div>
 
+
+
+
 </div>
 </form>
-<script type="text/javascript" src="{% static 'js/prueba.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/select_anidados.js' %}"></script>
 </body>
 </html>
 
-<!--
-  <div class="form form--login">
-    <div class="form--heading"></div>
-    <form autocomplete="off">
-      <input type="text" placeholder="Name">
-      <input type="password" placeholder="Password">
-      <button class="button">Login</button>
-    </form>
-  </div> -->

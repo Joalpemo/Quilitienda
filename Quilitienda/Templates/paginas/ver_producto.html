@@ -13,17 +13,12 @@
 </head>
 <body>
 {% block content %}
-<a class="btn btn-dark btn-sm" href="{% url 'forms:tienda' %}">
+<a class="btn btn-secondary" href="{% url 'forms:tienda' %}">
     <span class="glyphicon glyphicon-arrow-left"></span> 
     <h7>Regresar</h7>
     </a>
-{% if user.is_authenticated %}
+    
                 <button style="float:right;" data-productos={{p.id}} data-action="add" class="btn btn-outline-secondary add-btn update-carrito"> Agregar al carrito</button>
-
-                {% else %}
-
-                <button style="float:right;"onClick="alert('¡Debes iniciar o registrarte para realizar esta aciion!')" class="btn btn-outline-secondary add-btn update-carrito"> Agregar al carrito</button>
-                {% endif %}
 <div>
     
     <h1>{{ p.name }}</h1>

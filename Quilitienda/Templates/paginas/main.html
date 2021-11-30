@@ -18,12 +18,10 @@
 
         <!--Select anidado (SELECT2)-->
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
         <!--Codigo Java -->
         <script type="text/javascript">
             var user = '{{request.user}}'
-            function getCookie(name){
+            function getToken(name){
                 var cookieValue = null;
                 if (document.cookie && document.cookie !==''){
                     var cookies = document.cookie.split(';');
@@ -37,23 +35,24 @@
                 }
                 return cookieValue;
             }
-            var csrftoken = getCookie('csrftoken'); 
+            var csrftoken = getToken('csrftoken'); 
             
-            function getCookie(name){
-                var cookiesArr = document.cookie.split(";");
 
-                    for (var i=0; i <cookiesArr.length; i++) {
-                        var cookiePair = cookiesArr[i].split("=");
+            function getCookie(name){
+                var cookieArr = document.cookie.split(";");
+
+                    for (var i=0; i <cookieArr.length; i++) {
+                        var cookiePair = cookieArr[i].split("=");
 
                         if(name == cookiePair[0].trim()){
-                            return decodeURIComponent(cookiePair[1])
+                            return decodeURIComponent(cookiePair[1]);
                         }             
                         
                     }
                 
                 return null;
             }
-            var cart = JSON.parse(getCookie('csrfavoritas'));
+            var cart = JSON.parse(getCookie('cart'));
             if (cart == undefined){
                 cart = {}
                 console.log('carrito creado')
@@ -114,7 +113,7 @@
                 
                 {% else %}
                     <a  class="btn btn-info text-ligth" href="{% url 'login' %}">Login</a>
-                    <a  class="btn btn-light text-dark" href="{% url 'forms:register' %}">Register</a>  
+                    <a  class="btn btn-light text-dark" href="{% url 'forms:register' %}">Registrarse</a>  
                 {% endif %}
             </ul>
           </nav>

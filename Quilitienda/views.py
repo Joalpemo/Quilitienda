@@ -7,36 +7,33 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Q 
-from .forms import *
 from .models import *
+from .forms import *
+from .utils import*
+import datetime
 import json
+
 
 def prueba (request):
      return render(request,'paginas/prueba.html')
+
+#Principal
 def tienda(request):
-     if request.user.is_authenticated:
-          customer=request.user.customer
-          order, created=Order.objects.get_or_create(customer=customer,complete=False)
-          items=order.orderitem_set.all()
-          Numero_carrito = order.cantidad
-     else:
-          items=[]
-          order= {"total_pago":0, "cantidad":0}
-          Numero_carrito = order['cantidad']
-     
+     data = cartData(request)
+     Numero_carrito = data['Numero_carrito']
 
-     buscar= request.GET.get("buscar")
      p = Product.objects.all()
-     i=Imagenes.objects.all()
+     iman=Imagenes.objects.all()
      
-
+     
      page =request.GET.get('page',1)
      try:
           paginator =Paginator(p,30)
           p =paginator.page(page)
      except:
           raise Http404
-     
+
+     buscar= request.GET.get("buscar")
      if buscar:
           p=Product.objects.filter(
                Q(name__icontains = buscar)|
@@ -44,32 +41,29 @@ def tienda(request):
                Q(categoria__nombre__icontains = buscar)
                ).distinct()
           data ={
-          'entity':p,'ima':i,'paginator':paginator,'Numero_carrito':Numero_carrito
+          'entity':p,'ima':iman,'Numero_carrito':Numero_carrito
           }
           return render(request, 'paginas/buscar.html',data)
           
      data ={
-     'entity':p,'ima':i,'paginator':paginator,'Numero_carrito':Numero_carrito
+     'entity':p,'ima':iman,'paginator':paginator,'Numero_carrito':Numero_carrito
      }
      return render(request, 'paginas/Quilitienda.html',data)
+#------------------------------------------------------------
 
-
+#Carrito
 def carrito(request):
-     i=Imagenes.objects.all()
-     buscar= request.GET.get("buscar")
+     iman=Imagenes.objects.all()
      p = Product.objects.all()
 
-     if request.user.is_authenticated:
-          customer=request.user.customer
-          order, created=Order.objects.get_or_create(customer=customer,complete=False)
-          items=order.orderitem_set.all()
-     else:
-          items=[]
-          order= {"total_pago":0, "cantidad":0}
+     data = cartData(request)
+     Numero_carrito = data['Numero_carrito']
+     items = data['items']
+     order = data['order']
 
-     context = {'items':items,'ima':i, 'order':order}
 
-     i=Imagenes.objects.all()
+     
+
      buscar= request.GET.get("buscar")
      if buscar:
           p=Product.objects.filter(
@@ -78,8 +72,10 @@ def carrito(request):
                Q(categoria__nombre__icontains = buscar)
                ).distinct()
           data ={
-          'entity':p,'ima':i}
+          'entity':p,'ima':iman}
           return render(request, 'paginas/buscar.html',data)
+     context = {'items':items,'ima':iman, 'order':order,'Numero_carrito':Numero_carrito}
+
      return render(request, 'paginas/Carrito_de_compras.html', context)
      
 
@@ -109,24 +105,55 @@ def Agregar_al_carrito(request):
           orderitem.delete()
           messages.success(request, 'Articulo eliminado del carrito')
      return JsonResponse('Agregado al carrito',safe=False)
+#------------------------------------------------------------
 
 
-
-
+#Pago
 def pago(request):
-     i=Imagenes.objects.all()
-     if request.user.is_authenticated:
-          customer=request.user.customer
-          order, created=Order.objects.get_or_create(customer=customer,complete=False)
-          items=order.orderitem_set.all()
-     else:
-          items=[]
-          order= {"total_pago":0, "cantidad":0}
+     iman=Imagenes.objects.all()
+     data = cartData(request)
+     depa =Departamento
+     Numero_carrito = data['Numero_carrito']
+     items = data['items']
+     order = data['order']
 
-     context = {'items':items,'ima':i, 'order':order}
+     if request.user.is_authenticated:
+          usuario= request.user.customer
+
+     context = {'items':items,'ima':iman, 'order':order, 'usuario':RegistrarForm(instance=usuario)}
 
      return render(request, 'paginas/Pago.html', context)
 
+def procesar_pedido(request):
+     transaction_id = datetime.datetime.now().timestamp()
+     data = json.loads(request.body)
+     if request.user.is_authenticated:
+          customer=request.user.customer
+          order, created=Order.objects.get_or_create(customer=customer,complete=False)   
+          total = float(data['form']['total'])
+          order.transaction_id = transaction_id
+
+          if total == order.total_carro:
+               order.complete = True
+          order.save()
+
+          if order.shipping == True:
+               ShippingAddress.objects.create(
+                    customer=customer,
+                    order=order,
+                    address=data['shipping']['address'],
+                    city=data['shipping']['city'],
+                    state=data['shipping']['state']
+
+
+                    )
+
+     else:
+          print('no logueado')
+     return JsonResponse('Pago completado',safe=False)
+#------------------------------------------------------------
+
+#Registro y Cierre de sesion
 def salir(request):
      logout(request)
      messages.success(request, 'Sesion cerrada')
@@ -158,10 +185,16 @@ def register(request):
             formu = CreateUserForm()
      context = {'formu':formu}
      return render(request, 'registration/register.html', context)
+#------------------------------------------------------------
 
+#Detalles de prodcuto
 def ver_producto(request, id_prod):
+     iman=Imagenes.objects.all()
      buscar= request.GET.get("buscar")
      p = Product.objects.get(id=id_prod)
+     data = cartData(request)
+     Numero_carrito = data['Numero_carrito']
+
      if buscar:
           p=Product.objects.filter(
                Q(name__icontains = buscar)|
@@ -172,12 +205,25 @@ def ver_producto(request, id_prod):
           'entity':p,
           }
           return render(request, 'paginas/buscar.html',data)
-     return render(request,'paginas/ver_producto.html',locals())
 
+     context = {'p':p,'ima':iman, 'Numero_carrito':Numero_carrito}
+
+     return render(request,'paginas/ver_producto.html',context)
+#------------------------------------------------------------
+
+#Perfil
 def ver_perfil(request,id_perfil):
+     buscar= request.GET.get("buscar")
      usuario =Customer.objects.get(user_id=id_perfil)
-     data ={'usuario':usuario,}
-     return render(request,'paginas/perfil.html',locals())
+     
+     data = cartData(request)
+     Numero_carrito = data['Numero_carrito']
+
+     if buscar:
+          palabra=buscar
+          return buscar(request,palabra)
+     data ={'usuario':usuario, 'Numero_carrito':Numero_carrito}
+     return render(request,'paginas/perfil.html', data)
 
 def modificar_perfil(request,id_perfil):
      usuario=get_object_or_404(Customer, user_id=id_perfil)
@@ -188,8 +234,24 @@ def modificar_perfil(request,id_perfil):
           modificar=RegistrarForm(data=request.POST, instance=usuario)
           if modificar.is_valid():
                modificar.save()
-               return redirect(to="forms:ver_perfil")
+               return ver_perfil (request,id_perfil)
           data["forms"]=modificar
 
      return render(request,'paginas/modificar_perfil.html',data)
-     
+#--------------------------------------------------------------
+
+#Buscar
+def buscar(request,buscar):
+     buscar=buscar
+     cartUtils = cartData(request)
+     Numero_carrito = cartUtils['Numero_carrito']
+     items = cartUtils['items']
+     order = cartUtils['order']
+     p=Product.objects.filter(
+               Q(name__icontains = buscar)|
+               Q(marca__nombre__icontains = buscar)|
+               Q(categoria__nombre__icontains = buscar)
+               ).distinct()
+     data ={'entity':p, 'Numero_carrito':Numero_carrito}
+     return render(request, 'paginas/buscar.html',data)
+#------------------------------------------------------------
