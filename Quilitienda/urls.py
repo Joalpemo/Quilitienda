@@ -6,7 +6,6 @@ from django.conf import settings
 app_name = 'forms'	
 urlpatterns = [
         #Leave as empty string for base url
-        path('buscar/<slug:slug>/', views.buscar, name='buscar'),
 	path('Quilitienda/', views.tienda, name="tienda"),
 	path('Carrito_de_compras/', views.carrito, name="carrito"),
 	path('Pago/', views.pago, name="pago"),

@@ -32,7 +32,7 @@ def cookiecart(request):
 		    items.append(item)
 		except:
 		    pass
-	return{'Numero_carrito': Numero_carrito, 'items':items, 'order':order}
+	return{'Numero_carrito': Numero_carrito, 'items':items, 'order':order,'cart':cart}
 
 
 def cartData(request):
@@ -41,6 +41,7 @@ def cartData(request):
 		order, created=Order.objects.get_or_create(customer=customer,complete=False)   
 		items=order.orderitem_set.all()
 		Numero_carrito = order.cantidad
+
 	else:
 		cookieData = cookiecart(request)
 		Numero_carrito = cookieData['Numero_carrito']

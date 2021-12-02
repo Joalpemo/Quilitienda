@@ -1,6 +1,15 @@
 {% extends 'paginas/main.html' %}
-{% load static %}
 {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+     {% load static %}
+     <title></title>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+
 <div class="row">
 	<div class="col-lg-12">
 		<div class="box-element">
@@ -19,7 +28,11 @@
                               </th>
 
                               <th>
-                                   <a style="float:right; margin:5px;" class="btn btn-info text-ligth" href="{% url 'forms:pago' %}">Pagar</a>
+                              {% if user.is_authenticated %}
+                                   <a style="float:right; margin:5px;" class="btn btn-info text-ligth" href="{% url 'forms:pago' %}">Pagar</a> 
+                              {% else %}
+                                   <button style="float:right; margin:5px;" class="btn btn-info text-ligth" id="No_login" >Pagar</button>
+                              {% endif %}
                               </th>
                          </tr>
                     </table>
@@ -79,4 +92,35 @@
 	</div>
 </div>
 </div>
+<script type="text/javascript">
+     $(function() {
+        $('#No_login').click(function() {
+          const swalWithBootstrapButtons = Swal.mixin({
+               customClass: {
+                   confirmButton: 'btn btn-info',
+                   cancelButton: 'btn btn-danger'
+                 },
+                 buttonsStyling: false
+               })
+
+          swalWithBootstrapButtons.fire({
+                 title: 'Opsss!',
+                 text: "No tienes una cuenta creada",
+                 icon: 'warning',
+                 showCancelButton: true,
+                 confirmButtonText:'Crear una cuenta',
+                 cancelButtonText: 'Salir',
+                 reverseButtons: true
+               })
+          
+        .then((result) => {
+             if (result.isConfirmed) {
+               window.location.href = `/Register/`
+             }
+          }); 
+     });
+    });
+</script>
+</body>
+</html>
 {% endblock content %}

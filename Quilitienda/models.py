@@ -20,11 +20,12 @@ class Customer(models.Model):
 	nombre = models.CharField(max_length=200, null =True, blank =True)
 	apellido = models.CharField(max_length=200, null =True, blank =True)
 	email = models.CharField(max_length=200, null =True, blank =True)
-	celular = models.IntegerField(null =True, blank =True)
+	celular = models.CharField(max_length=10,null =True, blank =True)
 	direccion = models.CharField(max_length=200, null =True, blank =True)
 	foto = models.ImageField(upload_to='foto',null =True, blank =True)
 	departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL, null=True, blank=True)
 	municipio = models.ForeignKey(Municipio, on_delete=models.SET_NULL,null=True,blank=True)
+	documento = models.IntegerField(null=True,blank=True)
 	def __str__(self):
 		return self.name
 
@@ -110,12 +111,11 @@ class OrderItem(models.Model):
 class ShippingAddress(models.Model):
 	customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
 	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-	address = models.CharField(max_length=200, null=False)
-	city = models.CharField(max_length=200, null=False)
-	state = models.CharField(max_length=200, null=False)
-	zipcode = models.CharField(max_length=200, null=False)
+	direccion = models.CharField(max_length=200, null=False)
+	departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL, null=True, blank=True)
+	municipio = models.ForeignKey(Municipio, on_delete=models.SET_NULL,null=True,blank=True)
 	date_added = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.address
+		return self.direccion
 

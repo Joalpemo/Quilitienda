@@ -5,8 +5,6 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/perfil_formulario.css' %}">
-
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<title></title>
 </head>
 <body>
@@ -18,32 +16,20 @@
     <div class="form--heading">Actualizar Datos</div>
 	    <div autocomplete="off" >
 	    <label>Nombre</label>
-	    {% if user.nombre == "" %}
-	      <input type="text" placeholder="Nombre">
-	    {% else %}
 			{{ form.nombre }}
-	    {% endif %}
 
 	    <label>Apellido</label>
-	    {% if user.apellido == "" %}
-	      <input type="text" placeholder="Apellido">
-	    {% else %}
 			{{ form.apellido }}
-	    {% endif %}
 
 	    <label>Correo</label>
-	    {% if user.email == "" %}
-	      <input type="email" placeholder="Correo">
-	    {% else %}
 			{{ form.email }}
-	    {% endif %}
-
+	    
 	    <label>Celular</label>
-	    {% if user.celular == "" %}
-	      <input type="tel" placeholder="Celular">
-	    {% else %}
-			{{ form.celular }} 
-	    {% endif %}
+			{{ form.celular }}
+			 
+	    <label>Documento</label>
+			{{ form.documento }} 
+	      <br>
 	      <br>
 	      <br>
 	    </div>
@@ -53,18 +39,11 @@
 		<form autocomplete="off">
 
 		<label>Dirrecion</label>
-	    {% if user.direccion == "" %}
-	      <input  placeholder="Dirrecion">
-	    {% else %}
 			{{ form.direccion }} 
-	    {% endif %}
+	    
 
 		<label>Departamento</label>
-	    {% if user.departamento == "" %}
-	      <input  placeholder="Departamento">
-	    {% else %}
 			{{ form.departamento }} 
-	    {% endif %}
 
 		<label>Municipio</label>
 	    {{ form.municipio }}

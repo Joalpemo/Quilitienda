@@ -81,7 +81,7 @@
 }
 div input {
 	 width: 90%;
-	 height: 60px;
+	 height: 45px;
 	 border: 0;
 	 border-bottom: 1px solid rgba(195, 195, 216, 0.5);
 	 font-size: 20px;
@@ -99,7 +99,7 @@ div input {
 }
  select {
  	width: 400px;
- 	height: 30px;
+ 	height: 45px;
  	font-size: 18px;
 }
 option {

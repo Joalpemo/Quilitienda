@@ -21,4 +21,30 @@ class RegistrarForm(ModelForm):
         'nombre',
         'apellido',
         'foto',
-        'municipio']
+        'documento',
+        'municipio'
+        ]
+
+class Sin_perfil(ModelForm):
+    class Meta:
+        model = Customer
+        fields = [
+        'celular',
+        'direccion',
+        'departamento',
+        'nombre',
+        'apellido',
+        'municipio',
+        'documento'
+        ]
+
+class Perfil_total(ModelForm):
+    class Meta:
+        model = Customer
+        fields = [
+        'celular',
+        'direccion',
+        'departamento',
+        'municipio',
+        'documento'
+        ]
