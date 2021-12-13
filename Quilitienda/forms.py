@@ -24,6 +24,17 @@ class RegistrarForm(ModelForm):
         'documento',
         'municipio'
         ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['municipio'].queryset = Municipio.objects.none()
+        
+        if 'departamento' in self.data:
+            try:
+                departamento_id = int(self.data.get('departamento'))
+                self.fields['municipio'].queryset = Municipio.objects.filter(departamento_id=departamento_id).order_by('name')
+            except (ValueError, TypeError):
+                pass  
+        
 
 class Sin_perfil(ModelForm):
     class Meta:
@@ -37,6 +48,17 @@ class Sin_perfil(ModelForm):
         'municipio',
         'documento'
         ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['municipio'].queryset = Municipio.objects.none()
+
+        if 'departamento' in self.data:
+            try:
+                departamento_id = int(self.data.get('departamento'))
+                self.fields['municipio'].queryset = Municipio.objects.filter(departamento_id=departamento_id).order_by('name')
+            except (ValueError, TypeError):
+                pass  
+
 
 class Perfil_total(ModelForm):
     class Meta:
@@ -48,3 +70,15 @@ class Perfil_total(ModelForm):
         'municipio',
         'documento'
         ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['municipio'].queryset = Municipio.objects.none()
+
+        if 'departamento' in self.data:
+            try:
+                departamento_id = int(self.data.get('departamento'))
+                self.fields['municipio'].queryset = Municipio.objects.filter(departamento_id=departamento_id).order_by('name')
+            except (ValueError, TypeError):
+                pass
+        
+        

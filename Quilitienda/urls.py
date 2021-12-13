@@ -16,6 +16,6 @@ urlpatterns = [
 	path('ver_perfil/<int:id_perfil>/',views.ver_perfil, name='ver_perfil'),
 	path('modificar_perfil/<int:id_perfil>/',views.modificar_perfil, name='modificar_perfil'),
 	path('procesar_pedido/',views.procesar_pedido, name='procesar_pedido'),
-
+	path('ajax/cargar-municipios/', views.cargar_municipios, name='ajax_cargar_municipios'),
 ]
 

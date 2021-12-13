@@ -59,8 +59,8 @@
 	 height: 100%;
 }
  .form--heading {
- 	position: relative;
- 	left: 200px;
+ 	position: absolute;
+ 	left: 300px;
 	 font-size: 30px;
 	 width: 225px;
 	 height: 50px;
@@ -81,7 +81,7 @@
 }
 div input {
 	 width: 90%;
-	 height: 45px;
+	 height: 35px;
 	 border: 0;
 	 border-bottom: 1px solid rgba(195, 195, 216, 0.5);
 	 font-size: 20px;
@@ -107,6 +107,7 @@ option {
 }
 div label {
 	 width: 90%;
+	 height: 20px;
 	 border: 0;
 	 font-size: 20px;
 	 font-weight: 300;
@@ -138,4 +139,14 @@ div input[type="text" i] {
 		 transform: scale(0.8);
 	}
 }
- 
+
+#id_foto{
+	width: 300px;
+	 height: 30px;
+	 font-size: 15px;
+	 
+}
+
+#datos{
+
+}

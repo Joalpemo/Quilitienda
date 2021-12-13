@@ -19,73 +19,65 @@
         <div id="contenedor_perfil">
 
             <div class="box_perfil_1">
-                <div class="imagen_perfil" >
-                    {% if usuario.foto == "" %}
-                    <img src="{% static 'imagenes/Perfil.jpg' %}">
-                    {% else %}
-                    <img src="{{usuario.foto.url}}">
-                    {% endif %}
-
-                </div>
                 <div>
-                        <h3 > <b>Nombre de Usuario:</b> </h3> 
+                    <h3 > <b>Nombre de Usuario:</b> </h3> 
 
-                        <h3 > {{ usuario.name }}</h3> 
-                    </div>
-                <br>
-                <br>
+                    <h3 > {{ usuario.name }}</h3> 
+                </div>
+                <hr>
+                <div>
+                    <h3 > <b>Nombre:</b> </h3> 
+
+                    <h3 > {{ usuario.nombre }}</h3> 
+                </div>
+                <hr>
+                <div>
+                    <h3 > <b>Apellido:</b> </h3> 
+
+                    <h3 > {{ usuario.apellido }}</h3> 
+                </div>
+                <hr>
+                <a id="bta"class="btn btn-info btn-sm" href="{% url 'forms:modificar_perfil' id_perfil=user.id %}">Actualizar Datos</a>
             </div>
 
             <div class="box_perfil_2">
-                    <div>
-                        <h3 > <b>Nombre:</b> </h3> 
-
-                        <h3 > {{ usuario.nombre }}</h3> 
-                    </div>
-                    <br>
-                    <div>
-                        <h3 > <b>Apellido:</b> </h3> 
-
-                        <h3 > {{ usuario.apellido }}</h3> 
-                    </div>
-                    <br>
                     <div>
                         <h3 > <b>Correo:</b> </h3> 
 
                         <h3 > {{ usuario.email }}</h3>
                     </div>
-                    <br>
+                    <hr>
                     <div>
                         <h3 > <b>Documento:</b> </h3> 
 
                         <h3 > {{ usuario.documento }}</h3>
                     </div>
-                    <br>
-                    
+                    <hr>
                     <div>
                         <h3 > <b>Celular:</b> </h3> 
 
                         <h3 > {{ usuario.celular }}</h3> 
                     </div>
-                    <br>
+                    <hr>
                     <div>
                         <h3 > <b>Direccion:</b> </h3> 
 
                         <h3 > {{ usuario.direccion }}</h3> 
                     </div>
-                    <br>
+                    <hr>
                     <div>
                         <h3 > <b>Departamento:</b> </h3> 
 
                         <h3 >{{ usuario.departamento }}</h3> 
                     </div>
+                    <hr>
                     <div>
                         <h3 > <b>Municipio:</b> </h3> 
 
                         <h3> {{ usuario.municipio }} </h3> 
                     </div>
-                    <a id="bta"class="btn btn-info btn-sm" href="{% url 'forms:modificar_perfil' id_perfil=user.id %}">Actualizar Datos</a>
-                    <br>        
+                    <hr>
+
              </div>
         </div>
 {% endblock content %}

@@ -269,7 +269,9 @@ def ver_perfil(request,id_perfil):
           'entity':p,'ima':iman
           }
           return render(request, 'paginas/buscar.html',data)
-     data ={'usuario':usuario, 'Numero_carrito':Numero_carrito}
+     if usuario.foto == '':
+          fot=1
+     data ={'usuario':usuario,'fot':fot, 'Numero_carrito':Numero_carrito}
      return render(request,'paginas/perfil.html', data)
 
 def modificar_perfil(request,id_perfil):
@@ -277,16 +279,23 @@ def modificar_perfil(request,id_perfil):
      data={
      'form':RegistrarForm(instance=usuario)
      }
+     perfil=id_perfil
      if request.method == 'POST':
           modificar=RegistrarForm(data=request.POST, instance=usuario)
           if modificar.is_valid():
                modificar.save()
-               return ver_perfil (request,id_perfil)
+               messages.success(request, 'Datos actualizados ')
+               return ver_perfil(request, perfil)
           data["forms"]=modificar
 
      return render(request,'paginas/modificar_perfil.html',data)
 #--------------------------------------------------------------
 
-#Buscar
+#Select Anidado
+def cargar_municipios(request):
+    departamento_id = request.GET.get('departamento_id')
+    municipios = Municipio.objects.filter(departamento_id=departamento_id)
+    print(departamento_id)
+    return JsonResponse(list(municipios.values('id', 'name')), safe=False)
 
 #------------------------------------------------------------
